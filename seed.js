@@ -14,6 +14,12 @@ import BlogPost from "./models/BlogPost.js";
 
 dotenv.config();
 
+// Deterministic placeholder image — same slug always resolves to the same
+// photo (Lorem Picsum), so images stay consistent across reseeds instead
+// of shuffling every run.
+const placeholderImage = (seed, width = 1200, height = 800) =>
+  `https://picsum.photos/seed/${seed}/${width}/${height}`;
+
 const services = [
   {
     title: "Interior",
@@ -24,6 +30,7 @@ const services = [
     fullDescription:
       "From space planning to final styling, we handle the full interior journey — concept, materials, furniture, and lighting design, built around how you'll actually live or work in the space.",
     offerings: ["Interior Design", "Renovation", "Project Consultancy", "Planning", "3D Perspective", "Animation"],
+    image: placeholderImage("service-interior"),
   },
   {
     title: "Architecture",
@@ -34,6 +41,7 @@ const services = [
     fullDescription:
       "We handle architectural design from first massing studies through to submission-ready construction drawings, coordinating with structural and M&E consultants along the way.",
     offerings: ["Concept Design", "Structural Planning", "Permit Drawings", "Construction Documentation"],
+    image: placeholderImage("service-architecture"),
   },
   {
     title: "Consulting",
@@ -44,6 +52,7 @@ const services = [
     fullDescription:
       "Independent project consultancy for clients who need budgeting, feasibility studies, and hands-on project management without committing to a full design-build package.",
     offerings: ["Feasibility Studies", "Budgeting", "Project Management", "Contractor Coordination"],
+    image: placeholderImage("service-consulting"),
   },
   {
     title: "IT & Technology",
@@ -54,6 +63,7 @@ const services = [
     fullDescription:
       "Structured cabling, networking, access control, smart-home/building automation, and custom software — planned in from day one so the systems that run your space are never an afterthought.",
     offerings: ["Structured Cabling", "Networking & Wi-Fi", "Smart Automation", "Security Systems", "Custom Software"],
+    image: placeholderImage("service-it"),
   },
 ];
 
@@ -64,7 +74,7 @@ const projects = [
     client: "Private Client",
     location: "Mumbai, Maharashtra",
     category: "Interior",
-    coverImage: "/images/projects/ridgewood-residence.jpg",
+    coverImage: placeholderImage("ridgewood-residence"),
     description: "A warm, material-led renovation of a 4-bedroom bungalow, with integrated smart lighting.",
     year: 2025,
     featured: true,
@@ -75,7 +85,7 @@ const projects = [
     client: "Meridian Holdings",
     location: "Bengaluru, Karnataka",
     category: "Commercial",
-    coverImage: "/images/projects/meridian-office.jpg",
+    coverImage: placeholderImage("meridian-office-tower"),
     description: "Full-floor commercial fit-out including structured cabling and access control for 200 staff.",
     year: 2025,
     featured: true,
@@ -86,7 +96,7 @@ const projects = [
     client: "Private Client",
     location: "New Delhi, Delhi",
     category: "Architecture",
-    coverImage: "/images/projects/casa-verde.jpg",
+    coverImage: placeholderImage("casa-verde"),
     description: "Architecture and structural design for a 3-storey residence from land purchase to keys.",
     year: 2024,
     featured: false,
@@ -97,7 +107,7 @@ const projects = [
     client: "Harbor Point Sdn Bhd",
     location: "Pune, Maharashtra",
     category: "IT",
-    coverImage: "/images/projects/harbor-point.jpg",
+    coverImage: placeholderImage("harbor-point-retail"),
     description: "Networking and POS infrastructure rollout across 6 retail outlets.",
     year: 2024,
     featured: false,
@@ -118,6 +128,7 @@ const blogPosts = [
     content:
       "Most renovations treat networking as an afterthought — an electrician runs a cable wherever's convenient once the walls are already up. We plan structured cabling, access points and automation alongside the interior layout from week one, so the finished space never has a visible retrofit.",
     tags: ["IT", "Process"],
+    coverImage: placeholderImage("blog-network-drywall"),
   },
   {
     title: "Choosing Materials That Age Well in India's Climate",
@@ -126,6 +137,7 @@ const blogPosts = [
     content:
       "Tropical humidity is unkind to certain finishes that look great on a moodboard shot in a temperate climate. We favour sealed engineered timber, powder-coated metal, and moisture-resistant substrates in wet zones — details that don't show up in a rendering but matter five years in.",
     tags: ["Materials", "Interior"],
+    coverImage: placeholderImage("blog-materials-climate"),
   },
 ];
 
