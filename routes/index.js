@@ -8,6 +8,7 @@ import Service from "../models/Service.js";
 import Project from "../models/Project.js";
 import Award from "../models/Award.js";
 import BlogPost from "../models/BlogPost.js";
+import { login } from "../controllers/authController.js";
 
 const router = express.Router();
 
@@ -41,6 +42,9 @@ router.get("/blog/:slug", blogCtrl.getOne);
 router.post("/blog", requireAdmin, blogCtrl.create);
 router.put("/blog/:id", requireAdmin, blogCtrl.update);
 router.delete("/blog/:id", requireAdmin, blogCtrl.remove);
+
+// --- Auth ---
+router.post("/auth/login", login);
 
 // --- Contact form ---
 router.post("/contact", contactLimiter, createContactMessage);
