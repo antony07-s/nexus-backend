@@ -1,6 +1,6 @@
 import express from "express";
 import { makeCrudController } from "../controllers/genericController.js";
-import { createContactMessage, getContactMessages } from "../controllers/contactController.js";
+import { createContactMessage, getContactMessages, updateContactMessageStatus } from "../controllers/contactController.js";
 import { contactLimiter } from "../middleware/rateLimiter.js";
 import { requireAdmin } from "../middleware/auth.js";
 
@@ -49,5 +49,6 @@ router.post("/auth/login", login);
 // --- Contact form ---
 router.post("/contact", contactLimiter, createContactMessage);
 router.get("/contact", requireAdmin, getContactMessages);
+router.patch("/contact/:id", requireAdmin, updateContactMessageStatus);
 
 export default router;

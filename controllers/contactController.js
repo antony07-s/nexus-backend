@@ -1,5 +1,6 @@
 import sanitizeHtml from "sanitize-html";
 import ContactMessage from "../models/ContactMessage.js";
+import { sendContactNotification } from "../utils/mailer.js";
 
 const clean = (val) =>
   typeof val === "string" ? sanitizeHtml(val.trim(), { allowedTags: [], allowedAttributes: {} }) : val;
@@ -34,8 +35,8 @@ export const createContactMessage = async (req, res) => {
     });
 
     // Optional: hook nodemailer here to notify the team inbox
-    // await sendNotificationEmail(newMessage);
-
+    await sendContactNotification(newMessage);
+    
     res.status(201).json({ success: true, data: newMessage });
   } catch (err) {
     console.error(err);
@@ -54,5 +55,26 @@ export const getContactMessages = async (req, res) => {
     res.json({ success: true, data: messages, total, page, pages: Math.ceil(total / limit) });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+export const updateContactMessageStatus = async (req, res) => {
+  const allowedStatuses = ["new", "contacted", "in-progress", "closed"];
+  const { status } = req.body;
+
+  if (!allowedStatuses.includes(status)) {
+    return res.status(400).json({ success: false, error: "Invalid contact status." });
+  }
+
+  try {
+    const message = await ContactMessage.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true, runValidators: true }
+    );
+    if (!message) return res.status(404).json({ success: false, error: "Contact message not found." });
+    res.json({ success: true, data: message });
+  } catch (err) {
+    res.status(400).json({ success: false, error: "Unable to update contact status." });
   }
 };
